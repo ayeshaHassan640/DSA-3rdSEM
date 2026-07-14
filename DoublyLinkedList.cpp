@@ -37,11 +37,12 @@ void insertAtMid(int pos,int value){
 	}
 	//Insert at start
 	Node* temp=head;
+	//when list is empty
 	if(pos==1)
 	{
 		newNode->next=temp;
 		newNode->prev=NULL;
-		
+		//head p insert krn hay when list is non empty
 	if(head!=NULL)
 	{
 		head->prev=newNode;
@@ -145,14 +146,31 @@ void displayBackward(){
 		temp=temp->prev;
 	}
 }
+//Display forward using recursion
+void displayForRecur(Node* temp)
+{
+	if(temp==NULL)	//BaseCase
+	return;
+	cout<< temp->data<< " ";
+	displayForRecur(temp->next);
+}
+//Display backward using recursion
+void displayBackRecur(Node* temp)
+{
+	if(temp==NULL)
+	return;
+
+	displayBackRecur(temp->next);
+	cout<< temp->data<<"  ";
+}
 int main(){
 	insert(50);
 	insert(100);
 	insert(150);
 	displayForward();
 	displayBackward();
-	search(100);
-	del(150);
-	displayForward();
-	displayBackward();
+	displayForRecur(head);
+	displayBackRecur(head);
+	//search(100);
+	//del(150);
 }
