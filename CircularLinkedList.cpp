@@ -32,7 +32,7 @@ void insertAtMid(int pos,int value)
 	newNode->next=head;
 	// Start pe insert karna ho
     if(pos == 1)
-	{
+	{   
 		Node* last=head;
 		while(last->next!=head){
 			last=last->next;
@@ -133,14 +133,31 @@ void display(){
 	}
 	while(temp!=head);
 }
+//DisplayUsingRecursion
+void disForRecur(Node* temp)
+{
+		cout<< temp->data<< " ";
+	if(temp->next==head)
+	return;
+	disForRecur(temp->next);
+}
+//BackWard display
+void disBackRecur(Node* temp)
+{
+    if(temp->next != head)
+        disBackRecur(temp->next);
+
+    cout << temp->data << "  ";
+}
 int main(){
 	insert(10);
 	insert(20);
 	insert(30);
-	insertAtMid(4,100);
+	//insertAtMid(4,100);
 	//display();
 	//search(30);
-	del(20);
-	display();
+	//del(20);
+	disForRecur(head);
+//	display();
 	return 0;
 }
