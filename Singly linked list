@@ -1,0 +1,399 @@
+#include<iostream>
+using namespace std;
+#define SIZE 6
+struct Node{
+	int data;
+	Node* next;
+};
+//Global declaration, shows that list is empty
+Node* head=NULL;
+	//INSERT FUNCTION AT LAST
+void insert(int value){
+	Node* newNode=new Node();  		// Memory allocate
+	newNode->data=value;			// Data store
+	newNode->next=NULL;				// Next NULL, kyunki ye last node banega
+	//INSERT AT START
+	if(head==NULL){
+		head=newNode;
+		return;
+	}
+	Node* temp=head;
+	while(temp->next!=NULL){
+		temp=temp->next;
+	}
+	temp->next=newNode;			// Last node ka next newNode pe point kare
+}
+//INSERT AT MIDDLE
+void insertAtMiddle(int pos, int value){
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = NULL;
+// Start pe insert karna ho
+    if(pos == 1){
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+    Node* temp = head;
+    // Loop temp ko position-1 tak le jaata hai
+    for(int i = 1; i < pos-1; i++){
+        if(temp->next == NULL) //agar position list s bari hogi te temp last tk ajyga
+		break; // agar end tak aa gaye
+        temp = temp->next;
+    }
+	// Ab temp previous node pe hai
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+//SEARCH FUNCTION
+void search(int value)
+{
+	if(head==NULL)
+	{
+		cout<< "List is empty";
+	}
+	Node*temp=head;
+	int position=1;
+	bool found=false;
+	while(temp!=NULL)
+	{
+		if(temp->data==value)
+		{
+			found=true;
+			cout << "Value found at position " << position << endl;
+			break;
+		}
+			temp=temp->next;
+			position++;
+		}
+		if(!found){
+			cout << "Value not found";
+		}
+}
+//DELETE FUNCION
+void del(int value)
+{
+	if(head==NULL)
+	{
+		cout << "List is empty";
+		return;
+	}
+	//Delete at start
+	//CASE 1: HEAD NODE DELETE
+	Node* temp=head;
+	if(temp->data==value){
+		head=head->next;
+		delete(temp);
+		return;
+	}
+	//Delete at end
+	//CASE 2: HEAD KE BAAD DELETE
+	Node* prev=head;
+	Node* current=head->next;
+	while(current!=NULL)
+	{
+		if(value==current->data)
+		{
+		prev->next=current->next;
+		delete(current);
+		break;
+	}
+	prev=current;
+	current=current->next;
+}
+}
+//Delete at specific Position
+void deleteByPos(int pos){
+	if(head==NULL){
+		cout<<"List is empty.";
+		return;
+	}
+	if(pos<0){
+		cout<< "Invalid Position.";
+		return;
+	}
+	Node*temp=head;
+	if(pos==1){
+		head=head->next;
+		delete temp;
+		return;
+	}
+	for(int i=1;i<pos-1;i++){
+		if(temp->next==NULL){
+			cout<< "Position out of range.";
+			break;
+		}
+		temp=temp->next;
+	}
+	
+		Node* target=temp->next;
+		temp->next=target->next;
+		delete target;
+	}
+//	void update(int old_value,int new_value){
+//		bool replace=false;
+//		if(head==NULL){
+//			cout<< "List is empty.";
+//			return;
+//		}
+//		Node* temp=head;
+//		while(temp!=NULL){
+//		if(temp->data==old_value){
+//			replace=true;
+//			temp->data=new_value;
+//			return;
+//		}
+//		temp=temp->next;
+//	}
+//		if(!replace){
+//			cout<< "Value not found.";
+//			return;
+//		}
+//	}
+////	void countNodes(){
+////		int count=0;
+////		Node* temp=head;
+////		while(temp!=NULL){
+////			count++;
+////			temp=temp->next;
+////		}
+////		cout<< "Total Nodes= "<< count << endl;
+////	}
+//	int reverse(Node* temp){
+//		Node* curr=temp;
+//		Node* prev=NULL;
+//		Node* next;
+//		while(curr!=NULL){
+//			next=curr->next;
+//			curr->next=prev;
+//			prev=curr;
+//			curr=curr->next;
+//		}
+//		return prev->data;
+//	}
+//	void BubbleSort(Node* head){
+//		if (head == NULL) {
+//        cout << "List is empty.";
+//        return;
+//    }
+//    bool swapped;
+////do-while isliye kyunke list ko pehle scan karna zaroori hai,
+//// phir decide hoga ke dobara scan karna hai ya nahi — 
+////while mein scan hoga hi nahi agar swapped pehle se false ho! ??
+//    do {
+//        swapped = false;   // assume: koi swap nahi hoga
+//
+//        Node* prev = head;
+//        Node* curr = head->next;
+//
+//        while(curr != NULL){
+//            if(prev->data > curr->data){
+//                int temp = prev->data;
+//                prev->data = curr->data;
+//                curr->data = temp;
+//                swapped = true;   // swap hua ? yaad rakho
+//            }
+//			prev = curr;
+//            curr = curr->next;
+//        }
+//
+//    } while(swapped);  // jab tak swap hota rahe, loop chalta rahe
+//}
+//
+////MIDDLE NODE USING SLOW FAST POINTER
+//Node* findMiddle(Node* head) {
+//    Node* slow = head;
+//    Node* fast = head;
+//
+//    while (fast != NULL && fast->next != NULL) {
+//        slow = slow->next;        // 1 qadam
+//        fast = fast->next->next;  // 2 qadam
+//    }
+//    return slow;  // slow = middle
+//}
+////DETECT CYCLE USING SLOW FAST POINTER
+//Node* detectCycleStart(Node* head) {
+//    Node* slow = head;
+//    Node* fast = head;
+//    bool cycleFound=false;
+//
+//    // Phase 1: cycle detect karo
+//    while (fast != NULL && fast->next != NULL) {
+//        slow = slow->next;
+//        fast = fast->next->next;
+//        if (slow == fast) {
+//                cycleFound = true;
+//                break;
+//            }
+//    }
+//    
+//        // Cycle nahi mili
+//        if (!cycleFound) {
+//            cout << "Koi cycle nahi hai." << endl;
+//            
+//        }
+//        // Phase 2 — start dhundo
+//
+//    fast = head;
+//    while (slow != fast) {
+//        slow = slow->next;
+//        fast = fast->next;  // dono ab 1 step
+//    }
+//
+//    return slow;  // cycle ka start!
+//}
+//void getNthNode(int pos){
+//	Node* temp=head;
+//	if(temp == NULL){
+//        cout << "List empty hai";
+//        return;
+//    }
+//		for(int i=1;i<pos;i++){
+//			if(temp->next==NULL){
+//				cout << "Position exist nahi karti";
+//				return;
+//			}
+//			temp=temp->next;
+//		}
+//		cout<< temp->next;
+//	}
+Node* stack[SIZE];
+int top=-1;
+void  push(Node* curr)
+{
+	if(top==SIZE-1)
+	{
+		cout<< "Stack Overflow.";
+		return ;
+		
+		}	
+		else
+		{
+			top++;
+			stack[top]=curr;
+		}
+	}
+Node* pop(){
+	if(top==-1)
+	{
+		cout<< "Stack underflow.";
+		return NULL;
+	}
+	
+	return stack[top--];
+	//top--;
+}
+//Reverse Display using stack
+void reverseStack()
+{
+	Node* temp=head;
+	while(temp!=NULL)
+	{
+		push(temp);
+		temp=temp->next;
+	}
+	while(top!=-1)
+	{
+		Node* n=pop();
+		cout<< n->data<< "  ";
+}
+}
+//bool isPalindrome(Node* head){
+//	//Find middle using these two pointers
+//Node* slow=head;
+//Node* fast=head;
+//while(fast!=NULL&& fast->next!=NULL){
+//	slow=slow->next;
+//	fast=fast->next->next;
+//}
+////Reverse right half of middle
+//Node* prev=NULL;
+//Node* curr=slow;
+//Node* nextNode=curr->next;
+//curr->next=prev;
+//prev=curr;
+//curr=nextNode;
+////Now Compare right half and left half
+//Node* left=head;
+//Node* right = prev;  // head of reversed second half
+//while(right!=NULL&& left!=NULL){
+//	if(right->data!=left->data){	//Palindrome check mein hamesha MISMATCH dhundo, match nahi! 
+//		return false;
+//	}
+//		right=right->next;
+//		left=left->next;
+//}
+//return true;
+//}
+////CONVERT BINARY LINKED LIST INTO DECIMAL.
+//int binaryToDecimal(Node* head){
+//	int storeNums[30];
+//	int size=0;
+//	Node* temp=head;
+//	while(temp!=NULL){
+//		storeNums[size]=temp->data;
+//		size++;
+//		temp=temp->next;
+//	}
+//		
+//		int result=0;
+//		for(int i=0;i<size;i++){
+//			result=result*2+storeNums[i];
+//		}
+//		return result;
+//		}
+////DISPLAY FUNCTION
+//void display(){
+//	Node* temp = head;  
+//	if(head==NULL){
+//		cout<< "List is empty";
+//	}
+//	while(temp!=NULL){
+//		cout<< temp-> data << " ";
+//		temp=temp->next;
+//	}
+//}
+//////Display using recursion
+////void displayList(Node*temp){
+////	if(temp==NULL){
+////		return ;
+////	}
+////	cout<< temp->data << " ";
+////	displayList(temp->next);
+////}
+//////Reversre using recusrion
+////void displayReverse(Node* temp){
+////	if(temp==NULL){
+////		return;
+////	}
+////	displayReverse(temp->next);
+////	cout << temp->data << " ";
+////}
+int main(){
+	insert(105);
+	insert(50);
+	insert(60);
+	insert(65);
+	insert(70);
+	insert(75);
+	//countNodes();
+	//rverseStack(curr);
+//	reverseStack(); 
+//	insertAtMiddle(2,15);
+//	search(58);
+	//del(55);
+	//deleteByPos(3);
+	//update(50,100);	
+	//display();
+	reverseStack();
+//	BubbleSort(head);
+//	display();
+//	if(isPalindrome(head))
+//        cout << "Palindrome hai";
+//    else
+//        cout << "Palindrome nahi";
+
+//	//displayList(head);
+//	displayReverse(head);
+	return 0;
+}
