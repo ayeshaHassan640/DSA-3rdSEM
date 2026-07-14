@@ -1,3 +1,68 @@
+8#include <iostream>
+#include <queue>
+using namespace std;
+
+struct Node
+{
+    float data;
+    Node* left;
+    Node* right;
+};
+
+Node* root = NULL;
+
+Node* createNode(float value)
+{
+    Node* temp = new Node;
+    temp->data = value;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+void insert(float value)
+{
+    Node* newNode = createNode(value);
+
+    if (root == NULL)
+    {
+        root = newNode;
+        return;
+    }
+
+    queue<Node*> q;
+    q.push(root);
+
+    while (!q.empty())
+    {
+        Node* temp = q.front();
+        q.pop();
+
+        // Left child
+        if (temp->left == NULL)
+        {
+            temp->left = newNode;
+            return;
+        }
+        else
+        {
+            q.push(temp->left);
+        }
+
+        // Right child
+        if (temp->right == NULL)
+        {
+            temp->right = newNode;
+            return;
+        }
+        else
+        {
+            q.push(temp->right);
+        }
+    }
+}
+
+level order
 #include <iostream>
 #include <queue>
 using namespace std;
