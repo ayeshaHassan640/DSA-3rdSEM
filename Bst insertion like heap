@@ -126,3 +126,32 @@ void insert(float value)
         }
     }
 }
+
+level
+int level = 0;
+
+queue<Node*> q;
+q.push(root);
+
+while(!q.empty())
+{
+    int size = q.size();   // Is level me kitne nodes hain
+
+    while(size--)
+    {
+        Node* temp = q.front();
+        q.pop();
+
+        // Agar temp hi required node hai
+        if(temp->data == value)
+            return level;
+
+        if(temp->left)
+            q.push(temp->left);
+
+        if(temp->right)
+            q.push(temp->right);
+    }
+
+    level++;   // Ek poora level khatam
+}
